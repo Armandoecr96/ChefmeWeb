@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col,
+import {Container, Row, Col,
 FormGroup, FormControl, Button, Table} from 'react-bootstrap';
-import './App.css';
+import '../../assets/css/search.css'
 
-class App extends Component {
+class Search extends Component {
   constructor(props, context) {
     super(props,context);
 
@@ -34,7 +34,7 @@ class App extends Component {
       
         <h1>ChefMe</h1>
         <div className = "input-ingredient">
-          <Grid>
+          <Container>
             <Row>
               <form>
                 <Col xs={8} md={5}>
@@ -75,16 +75,15 @@ class App extends Component {
                 </Col>
               </form>
             </Row> 
-          </Grid>
+          </Container>
         </div>
         <div className= "send">
-          <Grid id="menu">
-            <img src="https://enlacocina.telemesa.es/wp-content/uploads/2018/01/men%C3%BA.png" width="200px"></img>
+          <Container id="menu">
             <Table responsive>
               <tbody>
               </tbody>
             </Table>
-          </Grid>
+          </Container>
           <br></br>
           <Button type="button" bsSize="large" onClick={() => console.log(this.state)}>Search Recipe</Button>
         </div>
@@ -93,4 +92,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Search;
