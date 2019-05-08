@@ -2,6 +2,24 @@
   text-align: center;
 }
 
+.form {
+  display: flex;
+}
+
+.input {
+  margin: 2rem;
+}
+
+.addIngredienteButtom {
+  height: 36%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .App > h1{
   color:  orange ;
   font-weight: bold;
@@ -10,10 +28,6 @@
 
 .input-ingredient{
   padding-top: 5em;
-}
-
-.input-ingredient > .container > .row > form > .col-md-3 > button{
-  float: left;
 }
 
 #menu{

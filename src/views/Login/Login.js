@@ -1,13 +1,33 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
+import '../../assets/css/login.css'
+import logo from '../../assets/images/logo.png'
 
 class Login extends Component {
-  render () {
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  login = () => {
+    this.props.history.push('/search')
+    console.log(this.props)
+  }
+
+  render() {
     return (
-      <Container>
+      <Container className='container'>
         <Row>
           <Col>
-            <Form>
+            <div className='logoContainer'>
+              <img src={logo} className='logo' alt='ChefMe' />
+            </div>
+          </Col>
+          <Col>
+            <Form className='formLogin'>
               <Form.Group controlId='formBasicEmail'>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type='email' placeholder='Enter email' />
@@ -18,15 +38,15 @@ class Login extends Component {
               </Form.Group>
               <Form.Group controlId='formBasicChecbox'>
               </Form.Group>
-              <Button variant='primary' type='submit'>
-                Submit
+              <Button variant='primary' onClick={this.login}>
+                Login
               </Button>
             </Form>
             <p>¿No está registrado?<Button variant='link' type='submit'>
-                Registrese aquí
+              Registrese aquí
             </Button></p>
             <p>¿Olvido su contraseña?<Button variant='link' type='submit'>
-                Recuperala aquí
+              Recuperala aquí
             </Button></p>
           </Col>
         </Row>
