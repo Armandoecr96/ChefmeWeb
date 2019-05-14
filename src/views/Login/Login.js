@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import '../../assets/css/login.css'
 import logo from '../../assets/images/logo.png'
+import { NavLink } from 'react-router-dom'
 
 class Login extends Component {
   constructor(props) {
@@ -12,9 +13,30 @@ class Login extends Component {
     }
   }
 
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
   login = () => {
-    this.props.history.push('/search')
-    console.log(this.props)
+    fetch('http://localhost:8080/login', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: this.state.email, password: this.state.password }),
+    }).then(response => {
+      if (response.status === 200) {
+        response.json().then(json => {
+          localStorage.setItem('token', json.token)
+          localStorage.setItem('name', this.state.email)
+          this.props.history.push('/search')
+        })
+      }
+      if (response.status === 404) {
+        alert('No existe el usuario')
+      }
+    })
   }
 
   render() {
@@ -30,11 +52,11 @@ class Login extends Component {
             <Form className='formLogin'>
               <Form.Group controlId='formBasicEmail'>
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type='email' placeholder='Enter email' />
+                <Form.Control name='email' type='email' placeholder='Enter email' onChange={this.handleChange} />
               </Form.Group>
               <Form.Group controlId='formBasicPassword'>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type='password' placeholder='Password' />
+                <Form.Control name='password' type='password' placeholder='Password' onChange={this.handleChange} />
               </Form.Group>
               <Form.Group controlId='formBasicChecbox'>
               </Form.Group>
@@ -42,10 +64,10 @@ class Login extends Component {
                 Login
               </Button>
             </Form>
-            <p>¿No está registrado?<Button variant='link' type='submit'>
+            <p>¿No está registrado? <NavLink to='/register'>
               Registrese aquí
-            </Button></p>
-            <p>¿Olvido su contraseña?<Button variant='link' type='submit'>
+            </NavLink></p>
+            <p>¿Olvido su contraseña? <Button variant='link' type='submit'>
               Recuperala aquí
             </Button></p>
           </Col>

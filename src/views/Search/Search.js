@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
+import { Row, Col, Form, Button, Table } from 'react-bootstrap';
+import Navbar from '../../components/Navbar/Navbar'
 import '../../assets/css/search.css'
 
 class Search extends Component {
@@ -7,15 +8,15 @@ class Search extends Component {
     super(props, context);
 
     this.state = {
-      preIngredients: "",
-      cantidad: "",
-      medition: "",
-      ingredients: []
+      preIngredients: '',
+      cantidad: '',
+      medition: 'kg',
+      ingredients: [],
+      disabled: true
     };
   }
 
   handleChange = (e) => {
-    console.log(e)
     this.setState({ [e.target.name]: e.target.value })
   }
 
@@ -27,16 +28,36 @@ class Search extends Component {
     }
     this.state.ingredients.push(data)
     this.setState({ preIngredients: "", cantidad: "" })
+    if (this.state.ingredients.length >= 3) {
+      this.setState({ disabled: false })
+    }
+  }
+
+  deleteIngredient = (index) => {
+    let auxiliarArray = [...this.state.ingredients]
+    auxiliarArray.splice(index, 1)
+
+    this.setState({ ingredients: auxiliarArray })
+
+    if (this.state.ingredients.length < 4) {
+      this.setState({ disabled: true })
+    }
+  }
+
+  searchRecipes = () => {
+    this.props.history.push('/search/result')
   }
 
   render() {
     return (
       <div className="App">
+        <Navbar />
         <h1>ChefMe</h1>
-        <Container className='input-ingredient'>
+        <div className='input-ingredient'>
           <Row>
-            <Col xs={12} md={12}>
-              <Form className='form'>
+            <Col>
+              <Form className='form' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
                 <Form.Group className='input'>
                   <Form.Label>Ingredients</Form.Label>
                   <Form.Control
@@ -48,6 +69,7 @@ class Search extends Component {
                     onChange={this.handleChange}
                   />
                 </Form.Group>
+
                 <Form.Group className='input'>
                   <Form.Label>Cuantity</Form.Label>
                   <Form.Control
@@ -57,10 +79,13 @@ class Search extends Component {
                     placeholder="Cuantity"
                     onChange={this.handleChange} />
                 </Form.Group>
-                <Form.Group as={Col} controlId="formGridState" className='input'>
-                  <Form.Label>State</Form.Label>
+
+                <Form.Group controlId="formGridState" className='input'>
+                  <Form.Label>Unit</Form.Label>
                   <Form.Control as="select"
-                    name="medition" onChange={this.handleChange} value={this.state.medition}>
+                    name="medition"
+                    onChange={this.handleChange}
+                    value={this.state.medition}>
                     <option value="kg">kg</option>
                     <option value="gr">gr</option>
                     <option value="lt">lt</option>
@@ -68,17 +93,15 @@ class Search extends Component {
                     <option value="pzs">pzs</option>
                   </Form.Control>
                 </Form.Group>
-                <Form.Group controlId='formBasicChecbox'>
-                </Form.Group>
                 <div className='buttonContainer'>
                   <Button type="button" className='addIngredienteButtom' onClick={() => this.handleSubmit()} >Add Ingredient</Button>
                 </div>
               </Form>
             </Col>
           </Row>
-        </Container>
-        <div className="send">
-          <Container id="menu">
+        </div>
+        <div className="send" style={{ marginBottom: 40 }}>
+          <div id="menu">
             <Table responsive>
               <tbody>
                 <tr>
@@ -88,12 +111,13 @@ class Search extends Component {
                 </tr>
 
                 {
-                  this.state.ingredients.map((i) => {
+                  this.state.ingredients.map((i, key) => {
                     return (
                       <tr>
                         <td>{i.ingredients}</td>
                         <td>{i.cantidad}</td>
                         <td>{i.medition}</td>
+                        <td><Button type='button' onClick={() => this.deleteIngredient(key)}>Delete</Button></td>
                       </tr>
                     )
                   })
@@ -101,9 +125,9 @@ class Search extends Component {
 
               </tbody>
             </Table>
-          </Container>
+          </div>
           <br></br>
-          <Button type="button" onClick={() => console.log(this.state)}>Search Recipe</Button>
+          <Button type="button" onClick={this.searchRecipes} disabled={this.state.disabled}>Search Recipe</Button>
         </div>
       </div>
     );
