@@ -14,13 +14,18 @@ class RecipeList extends Component {
   }
 
   componentDidMount = () => {
-    fetch('http://localhost:8080/recetas', {
+    let ingredient = ''
+    if(this.props.location.state !== undefined) {
+      ingredient = '/' + this.props.location.state.detail
+    }
+    fetch('http://localhost:8080/recetas' + ingredient, {
       headers: {
         'Authorization': localStorage.getItem('token')
       }
     }).then(response => {
       response.json().then(
         json => {
+          console.log(json)
           let recetas = [...json]
           this.setState({ listRecipes: recetas })
         }

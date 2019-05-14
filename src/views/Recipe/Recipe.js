@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import StarRatingComponent from 'react-star-rating-component'
+import Navbar from '../../components/Navbar/Navbar'
 
 class Recipe extends Component {
   constructor(props) {
@@ -28,27 +29,24 @@ class Recipe extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', margin: 16,  }}>
-        <h1>{this.state.recipe.title}</h1>
-        <img src={this.state.recipe.image} style={{ width: 300, height: 'auto', alignSelf: 'center', borderRadius: 8 }} alt='recipe' />
-        <div>
-          <h3>Ingredients</h3>
-          <ul>
-            <li>Leche</li>
-          </ul>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', alignContent: 'left' }}>
-            <h3>Preparation</h3>
+      <div>
+        <Navbar />
+        <div style={{ display: 'flex', flexDirection: 'column', margin: 16, }}>
+          <h1>{this.state.recipe.title}</h1>
+          <img src={this.state.recipe.image} style={{ width: 300, height: 'auto', alignSelf: 'center', borderRadius: 8 }} alt='recipe' />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', alignContent: 'left' }}>
+              <h3>Preparation</h3>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: this.state.recipe.preparation }} />
           </div>
-          <p>{this.state.recipe.preparation}</p>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 50 }}>
-          <StarRatingComponent
-            starCount={5}
-            editing={false}
-            value={this.state.recipe.calification}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 50 }}>
+            <StarRatingComponent
+              starCount={5}
+              editing={false}
+              value={this.state.recipe.calification}
+            />
+          </div>
         </div>
       </div>
     )

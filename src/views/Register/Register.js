@@ -32,7 +32,25 @@ class Register extends Component {
         }).then(response => {
             console.log(response.status)
             if(response.status === 200) {
-                alert('Usuario creado')
+                fetch('http://localhost:8080/login', {
+                    method: 'post',
+                    mode: 'cors',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user: this.state.email, password: this.state.password }),
+                  }).then(response => {
+                    if (response.status === 200) {
+                      response.json().then(json => {
+                        localStorage.setItem('token', json.token)
+                        localStorage.setItem('name', this.state.email)
+                        this.props.history.push('/search')
+                      })
+                    }
+                    if (response.status === 404) {
+                      alert('No existe el usuario')
+                    }
+                  })
             }
             if(response.status === 400) {
                 alert('Ya existia el usuario')

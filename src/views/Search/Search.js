@@ -12,7 +12,7 @@ class Search extends Component {
       cantidad: '',
       medition: 'kg',
       ingredients: [],
-      disabled: true
+      disabled: false
     };
   }
 
@@ -45,7 +45,14 @@ class Search extends Component {
   }
 
   searchRecipes = () => {
-    this.props.history.push('/search/result')
+    if(this.state.ingredients.length > 0) {
+      this.props.history.push({
+        pathname: '/search/result',
+        state: { detail: this.state.ingredients[0].ingredients }
+      })
+    } else {
+      this.props.history.push('/search/result')
+    }
   }
 
   render() {
@@ -100,7 +107,7 @@ class Search extends Component {
             </Col>
           </Row>
         </div>
-        <div className="send" style={{ marginBottom: 40 }}>
+        <div className="send" style={{ marginBottom: 40, padding: 32 }}>
           <div id="menu">
             <Table responsive>
               <tbody>
