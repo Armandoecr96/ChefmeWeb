@@ -25,6 +25,10 @@ class Profile extends Component {
   }
 
   componentDidMount = () => {
+    this.obtainUser()
+  }
+
+  obtainUser = () => {
     fetch('http://localhost:8080/usuarios/' + localStorage.getItem('name'), {
       headers: {
         'Authorization': localStorage.getItem('token')
@@ -47,18 +51,14 @@ class Profile extends Component {
   }
 
   deleteRecipe = () => {
-    
     fetch('http://localhost:8080/recetas/' + this.state.id, {
       method: 'DELETE',
       headers: {
         'Authorization': localStorage.getItem('token')
       }
     }).then(response => {
-      response.json().then(
-        json => {
-          // window.location.reload()
-        }
-      )
+      this.handleClose()
+      this.obtainUser()
     })
   }
 
@@ -68,14 +68,14 @@ class Profile extends Component {
         <Navbar />
         <div style={{ padding: 16 }}>
           <div>
-            <h3>Nombre</h3>
+            <h3>Name</h3>
             <p>{this.replaceUsername(this.state.profile.user)}</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
             <NavLink to={'/createRecipe'}><Button>Create new recipe</Button></NavLink>
           </div>
           <div>
-            <h3>Recetas</h3>
+            <h3>My Recipes</h3>
             <Table>
               <tbody>
                 <tr>
@@ -95,8 +95,9 @@ class Profile extends Component {
                           editing={false}
                           value={receta.calification}
                         /></td>
-                        <td><NavLink to={'/search/result/' + receta.receta_id}><i>View</i></NavLink></td>
+                        <td><NavLink to={'/search/result/' + receta.receta_id}>View</NavLink></td>
                         <td><NavLink to={'/editRecipe/' + receta.receta_id}> Edit </NavLink></td>
+                        <td><Button variant="outline-danger" onClick={() => this.handleShow(receta.receta_id)} style={{ marginTop: -8 }}> Delete </Button></td>
                       </tr>
                     )
                   })

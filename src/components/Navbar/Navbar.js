@@ -5,12 +5,11 @@ import { NavLink } from 'react-router-dom'
 class NavbarComponent extends Component {
     logout = () => {
         localStorage.removeItem('token')
-        console.log(this.props)
     }
     render() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="light">
-                <Navbar.Brand href="#home">Chef-Me</Navbar.Brand>
+                <Navbar.Brand style={{ color: 'orange', fontWeight: 'bold' }}>Chef-Me</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">

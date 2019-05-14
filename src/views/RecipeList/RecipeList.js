@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import '../../assets/css/login.css'
 import { NavLink } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar'
@@ -38,11 +38,10 @@ class RecipeList extends Component {
     return (
       <div>
         <Navbar />
-        <Container className='container'>
-          <Row>
-            <Col md={12}>
-              <div className="send">
-                <Container id="menu">
+        <div style={{ padding: 32 }}>
+          <div>
+              <div>
+                <div id="menu">
                   <Table responsive>
                     <tbody>
                       <tr>
@@ -51,11 +50,11 @@ class RecipeList extends Component {
                         <th>Score</th>
                       </tr>
 
-                      {
+                      { this.state.listRecipes.length !== 0 ?
                         this.state.listRecipes.map((i, key) => {
                           return (
-                            <tr key={key}>
-                              <td><img src={i.image} alt='recipes' style={{ width: 50, height: 'auto' }} /></td>
+                            <tr key={key} style={{ alignContent: 'center' }}>
+                              <td><img src={i.image} alt='recipes' style={{ width: 100, height: 'auto', borderRadius: 8 }} /></td>
                               <td>{i.title}</td>
                               <td> <StarRatingComponent
                                 starCount={5}
@@ -66,6 +65,7 @@ class RecipeList extends Component {
                             </tr>
                           )
                         })
+                        : <tr style={{ opacity: 0.8 }}>Without result</tr>
                       }
 
                     </tbody>
@@ -73,11 +73,10 @@ class RecipeList extends Component {
                   <div>
 
                   </div>
-                </Container>
+                </div>
               </div>
-            </Col>
-          </Row>
-        </Container>
+          </div>
+        </div>
       </div>
     )
   }
