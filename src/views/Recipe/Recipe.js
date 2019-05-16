@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import StarRatingComponent from 'react-star-rating-component'
+import StartRaiting from 'react-star-ratings'
 import Navbar from '../../components/Navbar/Navbar'
 
 class Recipe extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      recipe: []
+      recipe: [],
+      calification: 0.0
     }
   }
 
-  componentDidMount = () => {
+  fetchRecipe = () => {
     let id = this.props.match.params.id
     fetch('http://localhost:8080/recetas/receta/' + id, {
       headers: {
@@ -22,9 +23,21 @@ class Recipe extends Component {
           console.log(json)
           let recetas = json
           this.setState({ recipe: recetas })
+          this.setState({ calification: recetas.calification })
         }
       )
     })
+  }
+
+  componentDidMount = () => {
+    this.fetchRecipe()
+  }
+
+  changeRating = ( newRating, name ) => {
+    this.setState({
+      calification: newRating
+    });
+    this.fetchRecipe()
   }
 
   render() {
@@ -40,11 +53,15 @@ class Recipe extends Component {
             </div>
             <div dangerouslySetInnerHTML={{ __html: this.state.recipe.preparation }} />
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 50 }}>
-            <StarRatingComponent
-              starCount={5}
-              editing={false}
-              value={this.state.recipe.calification}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 24 }}>
+            <StartRaiting
+              numberOfStars={5}
+              isSelectable={true}
+              starRatedColor='gold'
+              starDimension='36px'
+              name='calification'
+              changeRating={this.changeRating}
+              rating={this.state.calification}
             />
           </div>
         </div>

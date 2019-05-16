@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import { Table, Button, Modal } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
-import StarRatingComponent from 'react-star-rating-component'
+import StartRaiting from 'react-star-ratings'
 
 class Profile extends Component {
   constructor(props) {
@@ -86,15 +86,21 @@ class Profile extends Component {
                 </tr>
                 {this.state.profile.recetas &&
                   this.state.profile.recetas.map((receta, key) => {
+                    let calification = 0.0
+                    if(receta.calification !== null) {
+                      calification = receta.calification
+                    }
                     return (
                       <tr key={key}>
                         <td><img src={receta.image} alt='recipes' style={{ width: 50, height: 'auto' }} /></td>
                         <td>{receta.title}</td>
-                        <td> <StarRatingComponent
-                          starCount={5}
-                          editing={false}
-                          value={receta.calification}
-                        /></td>
+                        <td><StartRaiting
+                              numberOfStars={5}
+                              isSelectable={false}
+                              starRatedColor='gold'
+                              starDimension='20px'
+                              rating={calification}
+                            /></td>
                         <td><NavLink to={'/search/result/' + receta.receta_id}>View</NavLink></td>
                         <td><NavLink to={'/editRecipe/' + receta.receta_id}> Edit </NavLink></td>
                         <td><Button variant="outline-danger" onClick={() => this.handleShow(receta.receta_id)} style={{ marginTop: -8 }}> Delete </Button></td>
