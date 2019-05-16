@@ -73,6 +73,7 @@ class EditRecipe extends Component {
     }
 
     editRecipe = () => {
+        console.log(this.state.profile)
         fetch('http://localhost:8080/recetas', {
             method: 'put',
             mode: 'cors',
@@ -162,7 +163,7 @@ class EditRecipe extends Component {
                         }}
                     />
                     <div style={{ marginTop: 32 }}>
-                        <Button onClick={this.editRecipe}>Create Recipte</Button>
+                        <Button onClick={this.editRecipe}>Edit Recipte</Button>
                     </div>
                 </div>
             </div>
